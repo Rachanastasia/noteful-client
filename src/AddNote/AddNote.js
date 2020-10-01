@@ -6,7 +6,7 @@ import ApiContext from '../ApiContext';
 import AddFolderOptions from './AddFolderOptions';
 import IsRequired from './IsRequired';
 import './NotefulForm.css';
-
+import cuid from 'cuid';
 import PropTypes from 'prop-types';
 
 
@@ -159,15 +159,14 @@ export default class AddNote extends React.Component {
             folder: Number(folder.id),
         };
 
-        const str = JSON.stringify(obj)
-
+        this.context.addNote({ ...obj, modified: now, id: cuid() })
 
         fetch(`${config.API_ENDPOINT}/notes`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
             },
-            body: str
+            body: JSON.stringify(obj)
         })
             .then(res => {
                 if (res.ok) {
@@ -175,7 +174,7 @@ export default class AddNote extends React.Component {
                 }
             })
             .then(note => {
-                this.context.addNote({ ...obj, modified: now })
+
                 this.props.history.push('/')
             })
             .catch(err => console.log(err.message));

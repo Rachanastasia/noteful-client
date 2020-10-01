@@ -14,6 +14,7 @@ import FolderError from '../Errors/FolderError'
 import './App.css';
 
 class App extends Component {
+
     state = {
         notes: [],
         folders: []
@@ -24,18 +25,22 @@ class App extends Component {
             .then(res => res.json())
 
             .then(noteRes => {
-                this.setState({
-                    notes: noteRes
-                })
+                if (noteRes.length !== this.state.notes.length) {
+                    this.setState({
+                        notes: noteRes
+                    })
+                }
             })
             .catch(err => console.log(err.message));
 
         fetch(`${config.API_ENDPOINT}/folders/`)
             .then(res => res.json())
             .then(folderRes => {
-                this.setState({
-                    folders: folderRes
-                })
+                if (folderRes.length !== this.state.folders.length) {
+                    this.setState({
+                        folders: folderRes
+                    })
+                }
             })
             .catch(err => console.log(err.message))
 
@@ -56,8 +61,9 @@ class App extends Component {
         fetch(`${config.API_ENDPOINT}/folders/`)
             .then(res => res.json())
             .then(folderRes => {
+
                 this.setState({
-                    folders: folderRes
+                    folders: this.state.folders, ...folderRes
                 })
             })
             .catch(err => console.log(err.message))
@@ -66,6 +72,7 @@ class App extends Component {
 
 
     handleDeleteNote = noteId => {
+
         this.setState({
             notes: this.state.notes.filter(note => note.id !== noteId)
         });
