@@ -19,6 +19,29 @@ class App extends Component {
         folders: []
     };
 
+    componentDidUpdate() {
+        fetch(`${config.API_ENDPOINT}/notes/`)
+            .then(res => res.json())
+
+            .then(noteRes => {
+                this.setState({
+                    notes: noteRes
+                })
+            })
+            .catch(err => console.log(err.message));
+
+        fetch(`${config.API_ENDPOINT}/folders/`)
+            .then(res => res.json())
+            .then(folderRes => {
+                this.setState({
+                    folders: folderRes
+                })
+            })
+            .catch(err => console.log(err.message))
+
+    }
+
+
     componentDidMount() {
         fetch(`${config.API_ENDPOINT}/notes/`)
             .then(res => res.json())
@@ -39,8 +62,8 @@ class App extends Component {
             })
             .catch(err => console.log(err.message))
 
-
     }
+
 
     handleDeleteNote = noteId => {
         this.setState({

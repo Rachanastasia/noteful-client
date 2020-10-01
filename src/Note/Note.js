@@ -18,8 +18,6 @@ export default class Note extends React.Component {
   static contextType = ApiContext;
 
   handleClickDelete = e => {
-
-    console.log(this.props.id)
     const noteId = this.props.id
 
     this.context.deleteNote(noteId)
@@ -62,7 +60,7 @@ export default class Note extends React.Component {
 
 
           <div>
-            <span>Modified</span>
+            <span>Modified </span>
             <span className='Date'>
               {format(modified, 'DD MMM YYYY')}
             </span>
